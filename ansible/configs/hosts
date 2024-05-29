@@ -1,0 +1,22 @@
+# Inventory File for Ansible
+
+[Pi]
+pi.local swapsize="1024"
+pi-zero-1 swapsize="1024"
+pi-zero-2 swapsize="1024"
+pi-4 swapsize="2048"
+
+[K3sPi:children]
+K3sAdmin
+K3sNode
+
+[K3sAdmin]
+pi-k3s-admin.local staticIP="10.0.0.10" swapsize="4096"
+
+[K3sNode]
+
+[ec2-instance]
+
+[edge-device]
+
+[local]

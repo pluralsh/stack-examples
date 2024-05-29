@@ -1,0 +1,11 @@
+# vim:ft=ansible
+
+- name: Update /etc/fstab
+  become: true
+  mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.opts }}"
+    state: mounted
+  loop: "{{ fs_mounts }}"

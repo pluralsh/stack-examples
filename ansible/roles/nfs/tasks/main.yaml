@@ -1,0 +1,32 @@
+- name: Install NFS Server Packages
+  when: nfs_shares is defined
+  become: true
+  apt:
+    pkg: nfs-kernel-server
+    state: present
+    update_cache: true
+
+- name: Update NFS Exports File
+  when: nfs_shares is defined
+  become: true
+  lineinfile:
+    path: /etc/exports
+    state: present
+    line: "{{ item }}"
+  loop: "{{ nfs_shares }}"
+
+- name: Export NFS Shares
+  when: nfs_shares is defined
+  become: true
+  shell: exportfs -ra
+
+- name: Mount NFS Devices to Local Filesystem
+  when: nfs_mounts is defined
+  become: true
+  mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.opts }}"
+    state: mounted
+  loop: "{{ nfs_mounts }}"

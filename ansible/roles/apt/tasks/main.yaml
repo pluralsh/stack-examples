@@ -1,0 +1,8 @@
+# vim:ft=ansible
+
+- name: Install Apt Packages
+  become: true
+  apt:
+    pkg: "{{ apt }}"
+    state: present
+    update_cache: "yes"
