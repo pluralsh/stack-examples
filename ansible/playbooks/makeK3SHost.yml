@@ -1,17 +1,13 @@
 
-- name: Provision Raspberry Pi Machines
+- name: Provision Host Machines
   gather_facts: true
   hosts: all
 
   tasks:
 
     - import_role:
-        name: system
-      tags: [ 'system' ]
-
-    - import_role:
-        name: apt
-      tags: [ 'apt' ]
+        name: packages
+      tags: [ 'packages' ]
   
     - import_role:
         name: configs

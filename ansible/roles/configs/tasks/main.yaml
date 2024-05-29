@@ -1,13 +1,13 @@
 # vim:ft=ansible
 
-- name: Create Directories on Pi
+- name: Create Directories on Host
   file: 
     path: "{{item}}"
     state: directory
   with_items:
    - "{{ directories }}"
 
-- name: Copy Config Files to Pi
+- name: Copy Config Files to Host
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

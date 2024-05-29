@@ -1,0 +1,46 @@
+# K3sHost group variables
+user: ubuntu
+ssh_keygen: true
+
+zsh:
+  install: true
+  ohmyzsh: true
+  chsh: true
+
+packages:
+  - autojump
+  - curl
+  - git
+  - htop
+  - jq
+  - vim
+  - tree
+  - wget
+  - zsh
+
+directories:
+  - ~/.config/nvim
+  - ~/.history
+  - ~/.kube
+
+config_files:
+  - { src: ".zshrc", dest: "~/.zshrc" }
+  - { src: ".vimrc", dest: "~/.vimrc" }
+  - { src: ".bashrc", dest: "~/.bashrc" }
+
+k3s: # Lightweight Kubernetes: https://github.com/k3s-io/k3s/releases/
+  tmpfile: /tmp/k3s.sh
+  url: https://get.k3s.io
+  # domain: example.cloud
+  nodetoken: /var/lib/rancher/k3s/server/node-token
+  kubeconfig: /home/ubuntu/.kube/k3sconfig
+  local_kubeconfig: "{{ lookup('env', 'HOME') }}/.kube/k3sconfig"
+  args:
+    - --write-kubeconfig-mode 644
+    - --write-kubeconfig ~/.kube/k3sconfig
+    - --disable=traefik
+    - --disable=servicelb
+    - --prefer-bundled-bin
+    - --tls-san 10.0.101.197
+    - --tls-san 18.191.236.195
+    # - --tls-san example.cloud

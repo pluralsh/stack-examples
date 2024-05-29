@@ -12,6 +12,7 @@ Infrastructure as Code (IaC) is the practice of managing and provisioning comput
 
 
 # Ansible
+### Update `./config/hosts` with ssh accessible IPs or Host Names
 
 
 # AWS Cloud Development Kit (CDK) 
