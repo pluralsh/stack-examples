@@ -1,0 +1,33 @@
+# vim:ft=ansible
+
+- name: Install packages with apt
+  when: ansible_pkg_mgr == "apt"
+  become: true
+  apt:
+    pkg: "{{ packages }}"
+    state: present
+    update_cache: yes
+
+- name: Install packages with yum
+  when: ansible_pkg_mgr == "yum"
+  become: true
+  yum:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+
+- name: Install packages with dnf
+  when: ansible_pkg_mgr == "dnf"
+  become: true
+  dnf:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+
+- name: Install packages with pacman
+  when: ansible_pkg_mgr == "pacman"
+  become: true
+  pacman:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
