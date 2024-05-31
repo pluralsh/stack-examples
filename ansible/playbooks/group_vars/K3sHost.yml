@@ -41,6 +41,6 @@ k3s: # Lightweight Kubernetes: https://github.com/k3s-io/k3s/releases/
     - --disable=traefik
     - --disable=servicelb
     - --prefer-bundled-bin
-    - --tls-san 10.0.101.197
-    - --tls-san 18.191.236.195
+    - --tls-san 10.0.101.73
+    - --tls-san 3.138.116.230
     # - --tls-san example.cloud

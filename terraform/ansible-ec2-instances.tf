@@ -3,6 +3,12 @@ provider "aws" {
   region  = "us-east-2"
 }
 
+# Generate a human-readable unique ID for suffixes
+resource "random_pet" "unique" {
+  length    = 3
+  separator = "-"
+}
+
 # Create an SSH key pair
 resource "tls_private_key" "pk" {
   algorithm = "RSA"
@@ -10,21 +16,21 @@ resource "tls_private_key" "pk" {
 }
 
 resource "aws_key_pair" "kp" {
-  key_name   = "ansible-ssh-key"
+  key_name   = "ansible-ssh-key-${random_pet.unique.id}"
   public_key = tls_private_key.pk.public_key_openssh
 
   provisioner "local-exec" {
-    command = "echo '${tls_private_key.pk.private_key_pem}' > ./ansible-ssh-key.pem"
+    command = "echo '${tls_private_key.pk.private_key_pem}' > ./ansible-ssh-key-${random_pet.unique.id}.pem"
   }
 
   provisioner "local-exec" {
-    command = "chmod 400 ./ansible-ssh-key.pem"
+    command = "chmod 400 ./ansible-ssh-key-${random_pet.unique.id}.pem"
   }
 }
 
 # Store the SSH private key in SSM Parameter Store
 resource "aws_ssm_parameter" "ssh_private_key" {
-  name        = "/ansible/ssh-private-key"
+  name        = "/ansible/ssh-private-key-${random_pet.unique.id}"
   description = "Private SSH key for Ansible hosts"
   type        = "SecureString"
   value       = tls_private_key.pk.private_key_pem
@@ -68,7 +74,7 @@ resource "aws_instance" "ansible_hosts" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "AnsibleHost-${count.index + 1}"
+    Name = "AnsibleHost-${count.index + 1}-${random_pet.unique.id}"
   }
 }
 
