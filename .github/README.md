@@ -78,6 +78,12 @@ ansible-playbook playbooks/makeK3SHost.yml --diff --check
 ansible-playbook playbooks/makeK3SHost.yml
 ```
 
+### Customize the Ansible Playbook Run
+```sh
+export ANSIBLE_CONFIG=/path/to/your/ansible.cfg
+ansible-playbook playbooks/makeK3SHost.yml
+```
+
 The K3s Cluster should now be available at the IP you configured as the `K3sAdmin`: https://18.191.236.195:6443  
 
 If you are running this ansible locally a copy of the authenticated Kube Config will dowload to `~/.kube/k3sconfig`
